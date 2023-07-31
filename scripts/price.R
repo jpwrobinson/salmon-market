@@ -1,6 +1,7 @@
 library(tidyverse)
 library(cowplot)
 library(magrittr)
+theme_set(funk::theme_sleek())
 
 # dat
 chi<-read.csv('data/ons/fresh_chicken_per_kgseries-070723.csv', skip=7) %>% 
@@ -25,7 +26,7 @@ names(white)
 price<-rbind(chi, beef, salm, white) %>% 
     mutate(year = as.Date(year, '%Y'))
 
-ggplot(price, aes(year, gbp_kg, col=food)) + 
+ggplot(price, aes(year, gbp_kg/1000, col=food)) + 
     geom_line(aes(group=food)) +
     labs(x = '', y = '£ per kg') +
     scale_x_date()
