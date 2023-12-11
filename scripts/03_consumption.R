@@ -9,7 +9,6 @@ con<-read_excel('data/defra_avg_weekly_perperson_household_consumption_g.xlsx') 
     mutate(year = as.numeric(str_replace_all(year, 'x', ''))) %>% 
     filter(!product %in% drops)
 
-
 ggplot(con, aes(year, grams, col=product)) + geom_line() +
     geom_text(data = con %>% filter(year == 2022), aes(label = product), size=3, hjust=0, nudge_x = 0.25) +
     theme(legend.position = 'none') +
