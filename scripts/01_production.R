@@ -20,10 +20,16 @@ lab<-prod %>% filter(year %in% c(2000,2021) & country != 'Other') %>%
     pivot_wider(names_from = 'year', values_from = 'tonnes', names_prefix = 'y_') %>% 
     mutate(chg = paste0('+', round((y_2021-y_2000) / y_2000 * 100,0),'%'))
 
+lab<-prod %>% filter(year %in% c(2021)) %>% ungroup() %>% 
+    mutate(tot = sum(tonnes), prop = paste0(round(tonnes / tot * 100, 1), '%')) %>% 
+    filter(country != 'Other')
+
 g_prod<-ggplot(prod, aes(year ,tonnes, col=country, group=country_name)) + geom_line() +
-    geom_text(data = lab, x = 2022, aes(y=y_2021, label = country_name), size=3, hjust=0, vjust=0) +
-    geom_text(data = lab, x = 2022, aes(y=y_2021, label = chg), size=3, hjust=0, vjust=2) +
-    annotate('text', x = 2022, y = lab$y_2021[2]-1e5, label = '(2000-2020)', size=2.5, hjust=0, vjust=2, col = 'grey40') +
+    geom_text(data = lab, x = 2021.5, aes(y=tonnes, label = country_name), size=3, hjust=0, vjust=0) +
+    geom_text(data = lab, x = 2021.5, aes(y=tonnes, label = prop), size=3, hjust=0, vjust=2) +
+    # geom_text(data = lab, x = 2021.5, aes(y=y_2021, label = chg), size=3, hjust=0, vjust=2) +
+    # annotate('text', x = 2021.5, y = lab$y_2021[2]-1e5, label = '(2000-2020)', size=2.5, hjust=0, vjust=2, col = 'grey40') +
+    annotate('text', x = 2021.5, y = lab$tonnes[2]-1e5, label = 'of total supply\nin 2021', size=2.5, hjust=0, vjust=2, col = 'grey40') +
     guides(colour='none') +
     scale_colour_manual(values=cols) +
     labs(x = '', y = 'Farmed salmon production, t') +

@@ -7,17 +7,17 @@ comp<-read.csv('data/marine_scot/Scottish Fish Farm Production Survey T34 Old - 
 comp2<-comp %>% group_by(year) %>% summarise(n = sum(number_of_companies), t = sum(total_tonnes_produced), s = sum(total_number_of_staff))
 comp3<-comp %>% group_by(year, production_category_tonnes) %>% summarise(n = sum(number_of_companies), t = sum(total_tonnes_produced))
 
-ggplot(comp, aes(year, number_of_companies, col=production_category_tonnes)) + geom_line()
-
-ggplot(comp2, aes(year, t)) + geom_line()
-ggplot(comp2, aes(year, s)) + geom_line()
-
-ggplot(comp3, aes(year, n, fill=production_category_tonnes)) + geom_area()
-ggplot(comp3, aes(year, t, col=production_category_tonnes)) + geom_line()
+# ggplot(comp, aes(year, number_of_companies, col=production_category_tonnes)) + geom_line()
+# 
+# ggplot(comp2, aes(year, t)) + geom_line()
+# ggplot(comp2, aes(year, s)) + geom_line()
+# 
+# ggplot(comp3, aes(year, n, fill=production_category_tonnes)) + geom_area()
+# ggplot(comp3, aes(year, t, col=production_category_tonnes)) + geom_line()
 
 
 g_company<-ggplot(comp2, aes(year, n)) + geom_line() +
-            labs(x = '', y = 'Number of companies') +
+            labs(x = '', y = 'N companies') +
             scale_x_continuous(breaks=seq(1990, 2020, by= 5))
 
 ## company names (note these are gutted production weight, so different to comp dataset from Scot gov (whole fish weight))
@@ -31,15 +31,13 @@ mowi<-mowi %>%
 
 mowi$comp<-factor(mowi$comp, levels=mowi$comp)
 
-cols<-c('#ffffcc', '#a1dab4','#41b6c4','#2c7fb8', '#253494')
-
 g_mowi<-ggplot(mowi, aes(x=2, prop)) + 
     geom_bar(stat = 'identity', aes(fill=comp), col='transparent', width=0.5) +
-    ggrepel::geom_text_repel(aes(y = label_ypos, label = comp, col=comp)) +
-    scale_fill_manual(values=cols) +
-    scale_colour_manual(values=cols) +
+    ggrepel::geom_text_repel(aes(y = label_ypos, label = comp, col=comp), size=2) +
+    scale_fill_manual(values=comp_cols) +
+    scale_colour_manual(values=comp_cols) +
     xlim(1, 3) +
-    coord_polar(theta='y', start=0, direction = 1) +
+    coord_polar(theta='y', start=0, direction = 1, clip='off') +
     theme_void(base_size=0) +
     theme(legend.position = 'none') 
 

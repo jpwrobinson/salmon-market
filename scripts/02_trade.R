@@ -24,24 +24,27 @@ trade_s_t<-trade %>% mutate(species2 = ifelse(species %in% trade_top5_byweight$s
 
 g_val<-ggplot(trade_s %>% filter(species2 != 'Other'), aes(year, value/1e6, col=species2)) +
     geom_line() +
-    geom_point() +
+    # geom_point() +
     labs(x = '', y = 'Exports, £M') +
     geom_text(data = trade_s %>% filter(year == 2022 & species2 !='Other'),
-              aes(x = 2022.25, y = value/1e6, label = species2), hjust=0, size=3.5) +
+              aes(x = 2022.25, y = value/1e6, label = species2), hjust=0, size=2.5) +
     guides(colour='none') +
     scale_x_continuous(limits=c(2010, 2024), breaks=seq(2010, 2022, by = 2), expand=c(0,0))  +
-    scale_colour_manual(values = sp_cols)
+    scale_colour_manual(values = sp_cols) +
+    theme(plot.margin=unit(c(.4,.1,0.1,.1), 'cm'),
+          axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
 
 g_ton<-ggplot(trade_s_t %>% filter(species2 != 'Other'), aes(year, weight_t, col=species2)) +
     geom_line() +
-    geom_point() +
+    # geom_point() +
     labs(x = '', y = 'Exports, t') +
     geom_text(data = trade_s_t %>% filter(year == 2022 & species2 !='Other'),
-              aes(x = 2022.25, y = weight_t, label = species2), hjust=0, size=3.5) +
+              aes(x = 2022.25, y = weight_t, label = species2), hjust=0, size=2.5) +
     guides(colour='none') +
     scale_x_continuous(limits=c(2010, 2024), breaks=seq(2010, 2022, by = 2), expand=c(0,0)) +
     scale_y_continuous(labels=scales::comma) +
-    scale_colour_manual(values = sp_cols)
+    scale_colour_manual(values = sp_cols) +
+    theme(plot.margin=unit(c(0.1,.1,.1,.1), 'cm'))
 
 
 ## summmary stats
