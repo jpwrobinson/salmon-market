@@ -2,7 +2,7 @@ source('scripts/00_source.R')
 # FAO. 2023. Fishery and Aquaculture Statistics. Global production by production source 1950-2021 (FishStatJ). In: FAO Fisheries and Aquaculture Division [online]. Rome. Updated 2023. www.fao.org/fishery/statistics/software/fishstatj/en
 
 facs<-c('Scotland', 'Chile', 'Norway')
-cols<-c('Scotland' = '#DB72FB', 'Chile' = '#D39200', 'Norway' = '#00B9E3', 'Other' = 'grey')
+
 prod<-read.csv('data/fao_global_salmon_production.csv') %>% 
     janitor::clean_names() %>% 
     select(-starts_with('s')) %>% 
