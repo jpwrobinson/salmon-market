@@ -52,7 +52,7 @@ freq<-df %>%
     group_by(year_n, pop, sex, species2, seriali) %>% 
     summarise(grams_day = sum(grams_day)) %>% 
     group_by(year_n, pop, sex, species2) %>% 
-    summarise(n = length(grams_day)) %>% 
+    summarise(n = n_distinct(seriali)) %>% 
     group_by(year_n, pop, sex) %>% 
     mutate(tot_n = sum(n)) %>% ungroup() %>% 
     mutate(prop = n / tot_n)
@@ -66,7 +66,8 @@ ggplot(seafood_ann %>% filter(pop=='Adult' & species2=='Salmon'), aes(as.factor(
 
 ggplot(freq %>% filter(pop=='Adult' & species2=='Salmon'), aes(as.factor(year_n), prop)) + 
     geom_boxplot() +
-    labs(y = 'Proportion of salmon consumption', y = '')
+    labs(y = 'Proportion of salmon consumption', x = '') +
+    scale_y_continuous(labels = scales::percent_format())
 
 
 
