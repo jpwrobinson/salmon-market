@@ -1,6 +1,7 @@
 source('scripts/00_source.R')
 
-
+# Marine Scotland. 2021. Scottish Fish Farm Production Survey Data. doi: 10.7489/1918-1
+# https://data.marine.gov.scot/dataset/scottish-fish-farm-production-survey-data
 comp<-read.csv('data/marine_scot/Scottish Fish Farm Production Survey T34 Old - Atlantic salmon - No. of companies, production (t) staff & productivity 1993-_0.csv') %>% 
     clean_names()
 

@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse, janitor, cowplot, scales, readxl)
+pacman::p_load(tidyverse, janitor, cowplot, scales, readxl, ggrepel)
 theme_set(theme_bw())
 
 

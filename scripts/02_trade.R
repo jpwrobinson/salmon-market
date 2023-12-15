@@ -50,5 +50,6 @@ g_ton<-ggplot(trade_s_t %>% filter(species2 != 'Other'), aes(year, weight_t, col
 ## summmary stats
 trade_s %>% group_by(flow, year) %>% summarise(value = sum(value)/1e6) %>% filter(year == 2022) # £1718 million
 trade_s %>% filter(year == 2022 & species2=='Salmon') %>% summarise(value / 1e6) # £701 million
+trade_s_t %>% filter(year == 2022 & species2=='Salmon') %>% summarise(weight_t) # 90,351 t
 
 701/1718 # salmon was 41% of seafood exported by value in 2023

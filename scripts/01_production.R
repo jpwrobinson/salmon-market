@@ -35,3 +35,31 @@ g_prod<-ggplot(prod, aes(year ,tonnes, col=country, group=country_name)) + geom_
     labs(x = '', y = 'Farmed salmon production, t') +
     scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) +
     scale_y_continuous(labels=scales::comma)
+
+
+## add farm sites in Scotland
+# http://aquaculture.scotland.gov.uk/data/site_details.aspx
+site<-read.csv('data/ms_site_details.csv') %>% 
+    clean_names() %>% 
+    mutate(date = as.numeric(str_split_fixed(date_registered, '-', 3)[,3])) %>%
+    filter(water_type == 'Seawater' & str_detect(species, 'Salmon')) %>% 
+    mutate(operator_fac = fct_lump_lowfreq(operator))
+
+g1<-ggplot(site, aes(date, fill=producing_in_last_3_years)) + geom_bar() +
+    labs(x = '', y ='Number of sites registered') +
+    theme(legend.position = c(0.8, 0.8))
+g2<-ggplot(site, aes(operator_fac, fill=producing_in_last_3_years)) + geom_bar() +
+    labs(x = '', y ='Number of sites registered') +
+    theme(legend.position = 'none', legend.title = element_blank())
+plot_grid(g1, g2)
+
+cumu<-site %>% filter(producing_in_last_3_years == 'Yes') %>% 
+    group_by(date) %>% 
+    summarise(n = n_distinct(marine_scotland_site_id)) %>% 
+    ungroup() %>% 
+    mutate(n_cum = cumsum(n))
+
+g_salm_sites<-ggplot(cumu, aes(date, n_cum)) + 
+    geom_line() +
+    labs(x = '', y ='Number of active farms') +
+    theme(legend.position = 'none', legend.title = element_blank())
