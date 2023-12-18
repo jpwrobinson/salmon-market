@@ -21,14 +21,17 @@ cons<-ggdraw(g_company + theme_half_open(12)) +
 ## Figure 3 | Consumption and dietary contributions of farmed salmon in the UK
 # house<-plot_grid(g_cons_meat, g_cons_fish, nrow=2, labels=c('a', 'b'))
 
-fig3<-plot_grid(g_cons_facet, g_diet_prop, nrow=1, labels=c('a', 'b'))
+bot<-plot_grid(g_diet_prop, g_diet_side, nrow=1, rel_widths=c(1, 0.6), labels=c('c', 'd'))
+top<-plot_grid(g_cons_meat, g_sp_freq, nrow=1, labels=c('a', 'b'))
+
+fig3<-plot_grid(top, bot, nrow=2)
 
 ## PDFS
 pdf(file = 'fig/Figure1.pdf', height=5, width=12)
 print(fig1)
 dev.off()
 
-pdf(file = 'fig/Figure3.pdf', height=5, width=12)
+pdf(file = 'fig/Figure3.pdf', height=6, width=10)
 print(fig3)
 dev.off()
 
