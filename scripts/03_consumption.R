@@ -56,9 +56,26 @@ cond<-read_excel('data/defra_household_cons/defra_avg_weekly_perperson_household
     clean_names() %>% 
     pivot_longer(-c(food_group), names_to = 'decile', values_to = 'grams') %>% 
     mutate(decile = as.numeric(str_replace_all(decile, 'decile_', ''))) %>% 
-    filter(!food_group %in% drops)
+    mutate(name = case_match(food_group, 
+                             'White fish, dried, salted or smoked' ~ 'White fish',
+                             'Blue fish, dried or salted or smoked' ~ 'Blue fish',
+                             'Herrings and other blue fish, fresh, chilled or frozen' ~ 'Blue fish',
+                             'White fish, fresh, chilled or frozen' ~ 'White fish',
+                             'Salmon, fresh, chilled or frozen' ~ 'Farmed salmon',
+                             'Ready meals and other fish products - frozen or not frozen' ~ 'Ready meals',
+                             'Takeaway fish meals and fish products' ~ 'Takeaway fish',
+                             'Salmon, tinned' ~ 'Salmon (tinned)',
+                             'Beef and veal' ~ 'Beef',
+                             'Other tinned or bottled fish' ~ 'Other tinned fish',
+                             "Chicken, uncooked - whole chicken or chicken pieces" ~ 'Chicken',
+                             .default = food_group)) %>% 
+    group_by(decile, name) %>% 
+    summarise(grams = sum(grams))
+    # filter(!food_group %in% drops)
 
-g_cond_income<-ggplot(cond %>% filter(!food_group=='Total fish'), aes(decile, grams, fill=food_group)) + 
+cond %>% filter(name!='Total fish') %>% group_by(decile) %>% slice_max(grams, n=3) %>% data.frame
+
+g_cond_income<-ggplot(cond %>% filter(!name=='Total fish'), aes(decile, grams, fill=name)) + 
     geom_area()  +
     labs(x='Wealth decile', y = 'weekly consumption per person, g') +
     scale_x_continuous(expand=c(0.05,0.05),breaks=1:10, limits=c(1, 10))

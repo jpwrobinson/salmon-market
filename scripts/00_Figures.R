@@ -35,3 +35,6 @@ pdf(file = 'fig/Figure3.pdf', height=6, width=10)
 print(fig3)
 dev.off()
 
+pdf(file = 'fig/FigureS1.pdf', height=5, width=10)
+print(g_cond_income)
+dev.off()
