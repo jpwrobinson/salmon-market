@@ -19,3 +19,12 @@ sp_cols<-c('Salmon' = '#d6604d',
 cols<-c('Scotland' = '#c51b7d', 'Chile' = '#D39200', 'Norway' = '#00B9E3', 'Other' = 'grey')
 
 comp_cols<-c('#ffffcc', '#a1dab4','#41b6c4','#2c7fb8', '#253494')
+
+col_foods<-c('Total fish' = '',
+             'Farmed salmon' = '',
+             'Beef' = '',
+             'Mutton and lamb' = '',
+             'Pork' = '',
+             'Chicken' = '',
+             'Other tinned fish' = '')
+
