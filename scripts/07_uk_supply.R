@@ -7,7 +7,7 @@ prod<-read.csv('data/fao_global_salmon_production.csv') %>%
   janitor::clean_names() %>% 
   select(-starts_with('s')) %>% 
   pivot_longer(-c(country_name:unit), names_to = 'year', values_to = 'tonnes') %>% 
-  mutate(country_name = recode(country_name,
+  mutate(country = recode(country_name,
                                'United Kingdom' = 'Scotland', 
                                'United States of America' = 'USA'),
          year = as.numeric(str_replace_all(year, 'x_', ''))) %>% 

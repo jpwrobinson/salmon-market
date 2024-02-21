@@ -29,4 +29,4 @@ price<-rbind(chi, beef, salm, white) %>%
 ggplot(price, aes(year, gbp_kg/1000, col=food)) + 
     geom_line(aes(group=food)) +
     labs(x = '', y = '£ per kg') +
-    scale_x_date()
+    scale_x_date(limits=as.Date(c('2000-01-01', '2023-12-12')), expand=c(0,0))
