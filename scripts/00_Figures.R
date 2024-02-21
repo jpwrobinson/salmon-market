@@ -41,3 +41,9 @@ dev.off()
 pdf(file = 'fig/FigureS1.pdf', height=5, width=10)
 print(g_cond_income)
 dev.off()
+
+## summary stats
+con %>% filter(cat =='Fish' & name!='Total fish' & year == 2022)
+con %>% filter(cat =='Fish' & name!='Total fish' & year == 2022) %>% ungroup() %>% summarise(sum(grams))
+52.3 / 132 * 100 # ready meal proportion of diet in 2022
+(3.4 + 18.2) / 132 * 100 # white fish + takeaway prop diet in 202

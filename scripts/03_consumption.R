@@ -1,7 +1,7 @@
 source('scripts/00_source.R')
 
 # Household consumption data - UK gov
-# https://www.gov.uk/government/statistical-data-sets/family-food-datasets
+# https:// www.gov.uk/government/statistical-data-sets/family-food-datasets
 drops<-c('White fish, dried, salted or smoked', 'Blue fish, dried or salted or smoked', "Herrings and other blue fish, fresh, chilled or frozen",
          'Salmon, tinned', 'Ready meals and other fish products - frozen or not frozen', 'Shellfish',
          'Takeaway fish', 'White fish, fresh, chilled or frozen')

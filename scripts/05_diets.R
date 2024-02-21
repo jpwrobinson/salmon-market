@@ -50,6 +50,16 @@ df<-read.csv('data/ndns_clean.csv') %>%
 # write food names to identify salmon products
 # df %>% distinct(food_name, species) %>% write.csv('data/ndns_foodlevel/ndns_seafood_species.csv')
 
+# relative frequency of food names by species
+df %>% filter(species2 %in%tops) %>% 
+    group_by(species2, food_name) %>% 
+    summarise(tot_sp = sum(grams_day)) %>% 
+    group_by(species2) %>% 
+    mutate(prop = tot_sp / sum(tot_sp)) %>% 
+    ggplot(aes(food_name, prop)) +
+    geom_col() + 
+    facet_wrap(~species2, scales='free') + 
+    coord_flip()
 
 ## annual portion sizes by seafood
 seafood_ann<-df %>% 
