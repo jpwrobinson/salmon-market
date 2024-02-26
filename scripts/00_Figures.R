@@ -5,6 +5,7 @@ source('scripts/02_trade.R')
 source('scripts/03_consumption.R')
 source('scripts/04_company.R')
 source('scripts/05_diets.R')
+source('scripts/06_price.R')
 
 ## Fig 1 = timeline of Scottish industry
 # trade
@@ -15,6 +16,11 @@ fig1<-plot_grid(g_prod, rhs, nrow=1, labels=c('a'))
 pdf(file = 'fig/Figure1.pdf', height=5, width=12)
 print(fig1)
 dev.off()
+
+## number of sites in 2021
+site %>% filter(producing_in_last_3_years == "Yes") %>% summarise(n_distinct(marine_scotland_site_id)) # 203
+# 53 ASC certified
+53 / 203 * 100
 
 ## Fig 2 =  Influence of retail and industry on farmed salmon market-making
 # companies
@@ -40,6 +46,11 @@ dev.off()
 
 pdf(file = 'fig/FigureS1.pdf', height=5, width=10)
 print(g_cond_income)
+dev.off()
+
+## Figure 4 | Food profiles of animal-source vs salmon
+pdf(file = 'fig/Figure4.pdf', height=6, width=10)
+plot_grid(gprice, gprice, gprice, labels =c('a',  'b', 'c'), nrow=1)
 dev.off()
 
 ## summary stats
