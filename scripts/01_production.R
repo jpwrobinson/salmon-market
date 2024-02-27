@@ -63,3 +63,26 @@ g_salm_sites<-ggplot(cumu, aes(date, n_cum)) +
     geom_line() +
     labs(x = '', y ='Number of active farms') +
     theme(legend.position = 'none', legend.title = element_blank())
+
+
+## add yield per smolt and farm size
+# https://data.marine.gov.scot/dataset/scottish-fish-farm-production-survey-data
+yield<-read.csv('data/marine_scot/Scottish Fish Farm Production Survey T28 - Atlantic salmon - Survival & production in smolt year classes 1984-_0.csv') %>% 
+    clean_names() %>% 
+    filter(year_of_smolt_input >= 1990)
+
+size<-read.csv('data/marine_scot/Scottish Fish Farm Production Survey T32 - Atlantic salmon - Prod. methods, capacity, tonnage and stocking densities 1984-_0.csv') %>% 
+    clean_names() %>% 
+    filter(year >= 1990)
+
+
+gy<-ggplot(yield, aes(year_of_smolt_input, yield_per_smolt_kg)) + geom_line() +
+    labs(x = '', y = 'kg') +
+    scale_x_continuous(breaks=seq(1990, 2020, by= 5)) +
+    annotate('text', 1990, 4.3, label='Yield per smolt',hjust=0)
+
+gs<-ggplot(size, aes(year, seawater_cages_total_capacity_cubic_metres/1000)) + geom_line() +
+    labs(x = '', y = '1,000 m3') + 
+    scale_x_continuous(breaks=seq(1990, 2020, by= 5)) +
+    annotate('text', 1990, 25000, label='Seawater cage capacity',hjust=0)
+

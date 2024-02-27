@@ -24,11 +24,20 @@ site %>% filter(producing_in_last_3_years == "Yes") %>% summarise(n_distinct(mar
 
 ## Fig 2 =  Influence of retail and industry on farmed salmon market-making
 # companies
-cons<-ggdraw(g_company + theme_half_open(12)) +
-    draw_plot(g_mowi, .56, .45, .6, .6) 
+axis.drop<-theme(axis.text.x = element_blank(),
+                 plot.margin = unit(c(.1, .1, .1, .1),'cm'))
+grids<-plot_grid(g_company + 
+                    annotate('text', 1990, 105, label='Consolidation',hjust=0) +
+                    theme_half_open(12) + axis.drop,
+                gy + theme_half_open(12) + axis.drop, 
+                 gs + theme_half_open(12) + theme(plot.margin = unit(c(.1, .1, .1, .1),'cm')),
+                 nrow =3 , align= 'v')
 
-pdf(file = 'fig/Figure2.pdf', height=5, width=12)
-print(cons)
+fig2<-ggdraw(grids) +
+    draw_plot(g_mowi, .66, .75, .3, .3) 
+
+pdf(file = 'fig/Figure2.pdf', height=6, width=7)
+print(fig2)
 dev.off()
 
 ## Figure 3 | Consumption and dietary contributions of farmed salmon in the UK
@@ -49,7 +58,7 @@ print(g_cond_income)
 dev.off()
 
 ## Figure 4 | Food profiles of animal-source vs salmon
-pdf(file = 'fig/Figure4.pdf', height=6, width=10)
+pdf(file = 'fig/Figure4.pdf', height=3, width=14)
 plot_grid(gprice, gprice, gprice, labels =c('a',  'b', 'c'), nrow=1)
 dev.off()
 

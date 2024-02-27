@@ -19,6 +19,7 @@ comp3<-comp %>% group_by(year, production_category_tonnes) %>% summarise(n = sum
 
 g_company<-ggplot(comp2, aes(year, n)) + geom_line() +
             labs(x = '', y = 'N companies') +
+            scale_y_continuous(breaks=c(10, 25, 50, 75, 100, 125)) +
             scale_x_continuous(breaks=seq(1990, 2020, by= 5))
 
 ## company names (note these are gutted production weight, so different to comp dataset from Scot gov (whole fish weight))
