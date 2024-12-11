@@ -2,8 +2,10 @@
 # Citation: University of Cambridge, MRC Epidemiology Unit, NatCen Social Research. (2023). National Diet and Nutrition Survey Years 1-11, 2008-2019. [data collection]. 19th Edition. UK Data Service. SN: 6533, DOI: http://doi.org/10.5255/UKDA-SN-6533-19
 # https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=6533
 
-trans <- read.csv("data/ndns_foodlevel/CommercialSpecies_translations.csv", sep=",") %>% clean_names() %>% 
-    mutate(food_name = unique_product, species = revised_mcs) %>% select(-unique_product, -data_supplier, -revised_mcs)
+trans <- read.csv("data/ndns_foodlevel/CommercialSpecies_translations.csv", sep=",") %>% 
+  clean_names() %>% 
+    mutate(food_name = unique_product, species = revised_mcs) %>% 
+  select(-unique_product, -data_supplier, -revised_mcs)
 
 # for food code inspection
 # read_delim('data/ndns_foodlevel/ndns_rp_yr1-4a_foodleveldietarydata_uk_v2.tab') %>% 
@@ -51,7 +53,7 @@ df<-read.csv('data/ndns_clean.csv') %>%
 # df %>% distinct(food_name, species) %>% write.csv('data/ndns_foodlevel/ndns_seafood_species.csv')
 
 # relative frequency of food names by species
-df %>% filter(species2 %in%tops) %>% 
+df %>% filter(species2 %in% tops) %>% 
     group_by(species2, food_name) %>% 
     summarise(tot_sp = sum(grams_day)) %>% 
     group_by(species2) %>% 

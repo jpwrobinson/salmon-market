@@ -58,8 +58,8 @@ print(g_cond_income)
 dev.off()
 
 ## Figure 4 | Food profiles of animal-source vs salmon
-pdf(file = 'fig/Figure4.pdf', height=3, width=14)
-plot_grid(gprice, gprice, gprice, labels =c('a',  'b', 'c'), nrow=1)
+pdf(file = 'fig/Figure4.pdf', height=3, width=10)
+plot_grid(gprice, gOmega, labels =c('a',  'b'), nrow=1)
 dev.off()
 
 ## summary stats
