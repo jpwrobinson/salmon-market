@@ -10,21 +10,34 @@ om<-read_excel('data/mccance_widdowsons_selected.xlsx', sheet=3) %>%
     mutate(omega_3_epadha_g = c22_6_100g_food_g + c20_5_100g_food_g) %>% 
     select(food_code, food_name, omega_3_epadha_g)
 
-## filter foods of interest (from master excel)
-## uk items
-focs<-c(#'16-175',	## Herring, flesh only, raw
-        '16-372',   ## Cod, flesh only, raw
-        '16-375',	## Haddock, flesh only, raw
-        '16-387',	## Prawns, king, raw
-        '16-356',	## Salmon, farmed, flesh only, raw
-        '16-393',	## Mackerel, flesh only, raw
-        '16-399'	## Tuna, flesh only, raw
-)
+# seafood
+af<-om %>% filter(str_detect(food_code, '16\\-'))
 
-focs_lab<-data.frame(food_code = focs, 
-                     food_lab = c('Cod', 'Haddock', 'Prawn', 'Salmon', 'Mackerel', 'Tuna'))
+ggplot(af, aes(omega_3_epadha_g)) + geom_histogram() +
+  geom_text(data = af %>% filter(omega_3_epadha_g>1),size=4, hjust=0,
+            aes(omega_3_epadha_g, 10, label=food_name), angle=90)
 
-uk_nut_vals<-om %>% filter(food_code %in% focs) %>% 
-    left_join(focs_lab)
+write.csv(af, file = 'data/mccance_aquatic_foods.csv', row.names=FALSE)
 
-ggplot(uk_nut_vals, aes(food_lab, ))
+
+uk_nut_vals<-read.csv(file = 'data/mccance_aquatic_foods_labelled.csv') %>% 
+  mutate(food_label2 = ifelse(food_label == 'Farmed salmon', 'Farmed salmon', 'Other wild fish'),
+         food_label = ifelse(food_label == '', 'Other', food_label)) %>% 
+  filter(food_label != 'Other') %>% 
+  group_by(food_label) %>% 
+  mutate(o3 = round(mean(omega_3_epadha_g), 1), lab = paste0(o3, ' g'))
+
+gOmega<-ggplot(uk_nut_vals, aes(fct_reorder(food_label, omega_3_epadha_g), 
+                                omega_3_epadha_g)) + 
+  geom_hline(yintercept=1.1, linetype=5, col='grey') +
+  geom_point(aes(fill = con), size=4, pch=21) +
+  coord_flip(clip='off') +
+  geom_text(data = uk_nut_vals %>% distinct(food_label, o3, lab),
+            aes(food_label, label = lab, y = 3.7), hjust = -.25,size=3) +
+  scale_y_continuous(expand=c(0.01,0), sec.axis = sec_axis(~., breaks=1.1, labels = 'NRV')) +
+  labs(x = '', y = 'EPA and DHA, g per 100 g') +
+  theme(legend.position = c(0.7, 0.4), 
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.title = element_blank(),
+        plot.margin=unit(c(.1,1,.1,.1), 'cm'))
