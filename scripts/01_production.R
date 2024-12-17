@@ -47,10 +47,14 @@ site<-read.csv('data/ms_site_details.csv') %>%
 
 g1<-ggplot(site, aes(date, fill=producing_in_last_3_years)) + geom_bar() +
     labs(x = '', y ='Number of sites registered') +
-    theme(legend.position = c(0.8, 0.8))
+    theme(legend.position = c(0.8, 0.8)) +
+    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) 
+
 g2<-ggplot(site, aes(operator_fac, fill=producing_in_last_3_years)) + geom_bar() +
     labs(x = '', y ='Number of sites registered') +
-    theme(legend.position = 'none', legend.title = element_blank())
+    theme(legend.position = 'none', legend.title = element_blank()) + 
+    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) 
+
 plot_grid(g1, g2)
 
 cumu<-site %>% filter(producing_in_last_3_years == 'Yes') %>% 
@@ -62,6 +66,7 @@ cumu<-site %>% filter(producing_in_last_3_years == 'Yes') %>%
 g_salm_sites<-ggplot(cumu, aes(date, n_cum)) + 
     geom_line() +
     labs(x = '', y ='Number of active farms') +
+    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) +
     theme(legend.position = 'none', legend.title = element_blank())
 
 

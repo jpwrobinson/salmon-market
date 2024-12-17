@@ -9,11 +9,11 @@ source('scripts/06_price.R')
 
 ## Fig 1 = timeline of Scottish industry
 # trade
-rhs<-plot_grid(g_salm_sites, g_val, g_ton, nrow=3, labels=c('b','c', 'd'), align='v')
+# rhs<-plot_grid(g_salm_sites, g_val, g_ton, nrow=3, labels=c('b','c', 'd'), align='hv')
+bot<-plot_grid(g_val, g_ton, nrow=1, labels=c('b', 'c'), align='hv')
+fig1<-plot_grid(g_prod, bot, nrow=2, labels=c('a'))
 
-fig1<-plot_grid(g_prod, rhs, nrow=1, labels=c('a'))
-
-pdf(file = 'fig/Figure1.pdf', height=5, width=12)
+pdf(file = 'fig/Figure1.pdf', height=6, width=8)
 print(fig1)
 dev.off()
 

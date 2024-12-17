@@ -1,5 +1,5 @@
 pacman::p_load(tidyverse, janitor, cowplot, scales, readxl, ggrepel, vegan)
-theme_set(theme_bw())
+theme_set(theme_classic())
 se<-function (x) {sd(x)/sqrt(length(x))}
 
 ## colours
