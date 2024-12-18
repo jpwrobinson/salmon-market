@@ -53,15 +53,15 @@ df<-read.csv('data/ndns_clean.csv') %>%
 # df %>% distinct(food_name, species) %>% write.csv('data/ndns_foodlevel/ndns_seafood_species.csv')
 
 # relative frequency of food names by species
-df %>% filter(species2 %in% tops) %>% 
-    group_by(species2, food_name) %>% 
-    summarise(tot_sp = sum(grams_day)) %>% 
-    group_by(species2) %>% 
-    mutate(prop = tot_sp / sum(tot_sp)) %>% 
-    ggplot(aes(food_name, prop)) +
-    geom_col() + 
-    facet_wrap(~species2, scales='free') + 
-    coord_flip()
+# df %>% filter(species2 %in% tops) %>% 
+#     group_by(species2, food_name) %>% 
+#     summarise(tot_sp = sum(grams_day)) %>% 
+#     group_by(species2) %>% 
+#     mutate(prop = tot_sp / sum(tot_sp)) %>% 
+#     ggplot(aes(food_name, prop)) +
+#     geom_col() + 
+#     facet_wrap(~species2, scales='free') + 
+#     coord_flip()
 
 ## annual portion sizes by seafood
 seafood_ann<-df %>% 
@@ -102,41 +102,41 @@ tops_1pc<-freq_of_all %>% group_by(species2) %>% summarise(maxer =max(prop)) %>%
     filter(maxer >= 0.01) %>% pull(species2)
 
 freq_of_all$sp_gr<-ifelse(freq_of_all$species2 %in% tops_1pc, freq_of_all$species2, 'Other')
-
-## fewer people are eating fish (63% to 60%), but portion sizes are not changing
-ggplot(freq_of_fish, aes(year_n, prop)) + geom_line() 
-ggplot(freq_of_fish, aes(year_n, grams_day*7)) + geom_line() 
-ggplot(freq_of_all %>% filter(species2%in%tops), aes(grams_day, prop)) + geom_point() + facet_grid(~species2)
-
-# proportion of species in sefaood diets by weight
-ggplot(seafood_ann %>% filter(species2 %in% tops) %>% 
-           group_by(year_n,species2) %>% 
-           summarise(grams_day=median(grams_day)), 
-       aes(as.factor(year_n), grams_day)) + 
-    geom_bar(stat='identity') +
-    facet_wrap(~species2)
-    
-# proportion of salmon in seafood diets, by weight
-ggplot(seafood_ann %>% filter(species2=='Salmon'), aes(as.factor(year_n), prop)) + 
-    geom_boxplot() 
-
-## proportion of salmon in all diets, frequency. more seafood eaters are eating salmon
-ggplot(freq_of_all %>% filter(species2=='Salmon'), aes(as.factor(year_n), prop)) + 
-    geom_bar(stat='identity') +
-    labs(y = 'Proportion of salmon consumption', x = '') +
-    scale_y_continuous(labels = scales::percent_format())
+# 
+# ## fewer people are eating fish (63% to 60%), but portion sizes are not changing
+# ggplot(freq_of_fish, aes(year_n, prop)) + geom_line() 
+# ggplot(freq_of_fish, aes(year_n, grams_day*7)) + geom_line() 
+# ggplot(freq_of_all %>% filter(species2%in%tops), aes(grams_day, prop)) + geom_point() + facet_grid(~species2)
+# 
+# # proportion of species in sefaood diets by weight
+# ggplot(seafood_ann %>% filter(species2 %in% tops) %>% 
+#            group_by(year_n,species2) %>% 
+#            summarise(grams_day=median(grams_day)), 
+#        aes(as.factor(year_n), grams_day)) + 
+#     geom_bar(stat='identity') +
+#     facet_wrap(~species2)
+#     
+# # proportion of salmon in seafood diets, by weight
+# ggplot(seafood_ann %>% filter(species2=='Salmon'), aes(as.factor(year_n), prop)) + 
+#     geom_boxplot() 
+# 
+# ## proportion of salmon in all diets, frequency. more seafood eaters are eating salmon
+# ggplot(freq_of_all %>% filter(species2=='Salmon'), aes(as.factor(year_n), prop)) + 
+#     geom_bar(stat='identity') +
+#     labs(y = 'Proportion of salmon consumption', x = '') +
+#     scale_y_continuous(labels = scales::percent_format())
 
 ## don't stack areas because individuals can eat multiple species
 ## doesn't scan - how is salmon eaters in total population = 20% AND salmon eaters in seafood population = 20%??
 
 ## proportion of fish in diets, frequency
-ggplot(freq_of_all %>% filter(species2 %in% tops), aes((year_n), prop, col=species2)) + 
-    geom_line() + 
-    labs(y = 'Proportion of diets', x = '') +
-    scale_y_continuous(labels = scales::percent_format())
+# ggplot(freq_of_all %>% filter(species2 %in% tops), aes((year_n), prop, col=species2)) + 
+#     geom_line() + 
+#     labs(y = 'Proportion of diets', x = '') +
+#     scale_y_continuous(labels = scales::percent_format())
 
 # diversity of seafoods
-ggplot(div, aes(year_n, div)) + geom_line()
+# ggplot(div, aes(year_n, div)) + geom_line()
 
 
 ## estimate the average seafood diet

@@ -39,13 +39,14 @@ g_cons_meat<-ggplot(con %>% filter(cat != 'Fish'), aes(year, grams, col=name)) +
     geom_text(data = con %>% filter(year == 2022 & cat != 'Fish'), aes(label = name), size=2.5, hjust=0, nudge_x = 0.25) +
     theme(legend.position = 'none') +
     scale_x_continuous(limits=c(1974, 2028), expand=c(0,0)) +
-    # scale_colour_manual(values = col_foods) +
+    scale_colour_manual(values = col_foods) +
     labs(x='', y = 'weekly consumption per person, g')
 
 g_cons_fish<-ggplot(con %>% filter(cat =='Fish' & name!='Total fish'), aes(year, grams, col=name)) + geom_line() +
     geom_text(data = con %>% filter(year == 2022 & cat=='Fish' & name!='Total fish'), aes(label = name), 
               size=2.5, hjust=0, nudge_x = 0.25) +
     theme(legend.position = 'none') +
+    scale_color_manual(values = col_foods) +
     scale_x_continuous(limits=c(1974, 2028), expand=c(0,0)) +
     labs(x='', y = 'weekly consumption per person, g')
 
@@ -59,12 +60,12 @@ cond<-read_excel('data/defra_household_cons/defra_avg_weekly_perperson_household
                              'Blue fish, dried or salted or smoked' ~ 'Blue fish',
                              'Herrings and other blue fish, fresh, chilled or frozen' ~ 'Blue fish',
                              'White fish, fresh, chilled or frozen' ~ 'White fish',
-                             'Salmon, fresh, chilled or frozen' ~ 'Farmed salmon',
+                             'Salmon, fresh, chilled or frozen' ~ 'Salmon',
                              'Ready meals and other fish products - frozen or not frozen' ~ 'Ready meals',
                              'Takeaway fish meals and fish products' ~ 'Takeaway fish',
-                             'Salmon, tinned' ~ 'Salmon (tinned)',
+                             'Salmon, tinned' ~ 'Tinned fish',
                              'Beef and veal' ~ 'Beef',
-                             'Other tinned or bottled fish' ~ 'Other tinned fish',
+                             'Other tinned or bottled fish' ~ 'Tinned fish',
                              "Chicken, uncooked - whole chicken or chicken pieces" ~ 'Chicken',
                              .default = food_group)) %>% 
     group_by(decile, name) %>% 
@@ -76,5 +77,8 @@ cond %>% filter(name!='Total fish') %>% group_by(decile) %>% slice_max(grams, n=
 g_cond_income<-ggplot(cond %>% filter(!name=='Total fish'), aes(decile, grams, fill=name)) + 
     geom_area()  +
     labs(x='Wealth decile', y = 'weekly consumption per person, g') +
-    scale_x_continuous(expand=c(0.05,0.05),breaks=1:10, limits=c(1, 10))
+    scale_fill_manual(values = col_foods) +
+    scale_x_continuous(expand=c(0,0),breaks=1:10, limits=c(1, 10)) +
+    theme(legend.title = element_blank())
 
+cond %>% filter(decile %in% c(1,10))
