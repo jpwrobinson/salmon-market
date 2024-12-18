@@ -31,8 +31,8 @@ g_val<-ggplot(trade_s %>% filter(species2 != 'Other'), aes(year, value/1e6, col=
     guides(colour='none') +
     scale_x_continuous(limits=c(2010, 2024), breaks=seq(2010, 2022, by = 2), expand=c(0,0))  +
     scale_colour_manual(values = sp_cols) +
-    theme(plot.margin=unit(c(.4,.1,0.1,.1), 'cm'),
-          axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
+    theme(plot.margin=unit(c(.4,.1,0.1,.1), 'cm'))
+          # axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
 
 g_ton<-ggplot(trade_s_t %>% filter(species2 != 'Other'), aes(year, weight_t, col=species2)) +
     geom_line() +
