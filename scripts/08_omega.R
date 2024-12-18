@@ -13,7 +13,15 @@ om<-read_excel('data/mccance_widdowsons_selected.xlsx', sheet=3) %>%
 # seafood
 af<-om %>% filter(str_detect(food_code, '16\\-'))
 
+# livestock
+ls<-om %>% filter(str_detect(food_code, '18\\-'))
+median(ls$omega_3_epadha_g[ls$omega_3_epadha_g>0])
+
 ggplot(af, aes(omega_3_epadha_g)) + geom_histogram() +
+  geom_text(data = af %>% filter(omega_3_epadha_g>1),size=4, hjust=0,
+            aes(omega_3_epadha_g, 10, label=food_name), angle=90)
+
+ggplot(ls, aes(omega_3_epadha_g)) + geom_histogram() +
   geom_text(data = af %>% filter(omega_3_epadha_g>1),size=4, hjust=0,
             aes(omega_3_epadha_g, 10, label=food_name), angle=90)
 
