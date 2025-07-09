@@ -6,6 +6,7 @@ source('scripts/03_consumption.R')
 source('scripts/04_company.R')
 source('scripts/05_diets.R')
 source('scripts/06_price.R')
+source('scripts/08_omega.R')
 
 ## Fig 1 = timeline of Scottish industry
 # trade

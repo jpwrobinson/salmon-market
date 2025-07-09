@@ -2,7 +2,7 @@ library(tidyverse)
 library(janitor)
 library(cowplot)
 library(magrittr)
-theme_set(funk::theme_sleek())
+# theme_set(funk::theme_sleek())
 
 # dat
 chi<-read.csv('data/ons/fresh_chicken_per_kgseries-070723.csv', skip=7) %>% 

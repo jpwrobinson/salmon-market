@@ -37,15 +37,18 @@ uk_nut_vals<-read.csv(file = 'data/mccance_aquatic_foods_labelled.csv') %>%
 
 gOmega<-ggplot(uk_nut_vals, aes(fct_reorder(food_label, omega_3_epadha_g), 
                                 omega_3_epadha_g)) + 
-  geom_hline(yintercept=1.1, linetype=5, col='grey') +
+  # geom_hline(yintercept=1.1, linetype=5, col='grey') +
   geom_point(aes(fill = con), size=4, pch=21) +
   coord_flip(clip='off') +
   geom_text(data = uk_nut_vals %>% distinct(food_label, o3, lab),
             aes(food_label, label = lab, y = 3.7), hjust = -.25,size=3) +
-  scale_y_continuous(expand=c(0.01,0), sec.axis = sec_axis(~., breaks=1.1, labels = 'NRV')) +
+  scale_y_continuous(expand=c(0.01,0), breaks=c(0.5, 1, 1.5, 2, 2.5, 3, 3.5)) +
+                     # sec.axis = sec_axis(~., breaks=1.1, labels = 'NRV')) +
   labs(x = '', y = 'EPA and DHA, g per 100 g') +
   theme(legend.position = c(0.7, 0.4), 
         panel.grid.minor.x = element_blank(),
         panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(),
+        panel.border = element_rect(colour = "black", fill=NA, linewidth=.5),
         legend.title = element_blank(),
         plot.margin=unit(c(.1,1,.1,.1), 'cm'))
