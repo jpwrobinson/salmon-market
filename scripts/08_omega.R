@@ -52,3 +52,9 @@ gOmega<-ggplot(uk_nut_vals, aes(fct_reorder(food_label, omega_3_epadha_g),
         panel.border = element_rect(colour = "black", fill=NA, linewidth=.5),
         legend.title = element_blank(),
         plot.margin=unit(c(.1,1,.1,.1), 'cm'))
+
+uk_nut_vals %>% filter(food_label2 == 'Farmed salmon') %>% 
+   group_by(con) %>% summarise(oo3=mean(omega_3_epadha_g))
+
+# mean difference in fresh + convenient salmon
+2.17 - 0.613
