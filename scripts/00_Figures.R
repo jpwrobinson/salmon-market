@@ -1,5 +1,5 @@
-
-
+# Source these scripts to load and clean datasets. 
+# Scripts create ggplot objects.
 source('scripts/01_production.R')
 source('scripts/02_trade.R')
 source('scripts/03_consumption.R')
@@ -7,6 +7,8 @@ source('scripts/04_company.R')
 source('scripts/05_diets.R')
 source('scripts/06_price.R')
 source('scripts/08_omega.R')
+
+# Code below creates figures and saves as pdfs.
 
 ## Fig 1 = timeline of Scottish industry
 # trade

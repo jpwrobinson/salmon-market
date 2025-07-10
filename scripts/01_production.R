@@ -45,31 +45,6 @@ site<-read.csv('data/ms_site_details.csv') %>%
     filter(water_type == 'Seawater' & str_detect(species, 'Salmon')) %>% 
     mutate(operator_fac = fct_lump_lowfreq(operator))
 
-g1<-ggplot(site, aes(date, fill=producing_in_last_3_years)) + geom_bar() +
-    labs(x = '', y ='Number of sites registered') +
-    theme(legend.position = c(0.8, 0.8)) +
-    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) 
-
-g2<-ggplot(site, aes(operator_fac, fill=producing_in_last_3_years)) + geom_bar() +
-    labs(x = '', y ='Number of sites registered') +
-    theme(legend.position = 'none', legend.title = element_blank()) + 
-    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) 
-
-plot_grid(g1, g2)
-
-cumu<-site %>% filter(producing_in_last_3_years == 'Yes') %>% 
-    group_by(date) %>% 
-    summarise(n = n_distinct(marine_scotland_site_id)) %>% 
-    ungroup() %>% 
-    mutate(n_cum = cumsum(n))
-
-g_salm_sites<-ggplot(cumu, aes(date, n_cum)) + 
-    geom_line() +
-    labs(x = '', y ='Number of active farms') +
-    scale_x_continuous(expand=c(0,0), limits=c(1980, 2026)) +
-    theme(legend.position = 'none', legend.title = element_blank())
-
-
 ## add yield per smolt and farm size
 # https://data.marine.gov.scot/dataset/scottish-fish-farm-production-survey-data
 yield<-read.csv('data/marine_scot/Scottish Fish Farm Production Survey T28 - Atlantic salmon - Survival & production in smolt year classes 1984-_0.csv') %>% 
